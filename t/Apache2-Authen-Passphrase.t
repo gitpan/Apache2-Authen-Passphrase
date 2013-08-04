@@ -6,9 +6,7 @@ use File::Temp qw/tempdir/;
 use Test::More tests => 7;
 BEGIN { use_ok('Apache2::Authen::Passphrase', qw/pwset pwcheck/) };
 
-my $tempdir = tempdir CLEANUP => 1;
-mkdir "$tempdir/us";
-$Apache2::Authen::Passphrase::rootdir = $tempdir;
+$Apache2::Authen::Passphrase::rootdir = tempdir CLEANUP => 1;
 
 sub pw_ok {
   my ($user, $pass, $testname) = @_;

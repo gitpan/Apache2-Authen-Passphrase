@@ -1,4 +1,4 @@
-package Apache2::Authen::Passphrase 0.001;
+package Apache2::Authen::Passphrase 0.001001;
 
 use 5.014000;
 use strict;
@@ -40,7 +40,7 @@ sub pwhash{
 sub pwset{
   my ($user, $pass)=@_;
 
-  my $file = "$rootdir/us/$user.yml";
+  my $file = "$rootdir/$user.yml";
   my $conf = eval { LoadFile $file } // undef;
   $conf->{passphrase}=pwhash $pass;
   $conf->{passphrase_version}=PASSPHRASE_VERSION;
@@ -53,7 +53,7 @@ sub pwcheck{
   my ($user, $pass)=@_;
   die INVALID_USER unless $user =~ USER_REGEX;
   $user=${^MATCH};# Make taint shut up
-  my $conf=LoadFile "$rootdir/us/$user.yml";
+  my $conf=LoadFile "$rootdir/$user.yml";
 
   die BAD_PASSWORD unless keys $conf;# Empty hash means no such user
   die BAD_PASSWORD unless Authen::Passphrase->from_rfc2307($conf->{passphrase})->match($pass);
@@ -62,6 +62,7 @@ sub pwcheck{
 
 sub handler{
   my $r=shift;
+  local $rootdir = $r->dir_config('AuthenPassphraseRootdir');
 
   my ($rc, $pass) = $r->get_basic_auth_pw;
   return $rc unless $rc == OK;
@@ -85,6 +86,7 @@ Apache2::Authen::Passphrase - basic authentication with Authen::Passphrase
 =head1 SYNOPSIS
 
   use Apache2::Authen::Passphrase qw/pwcheck pwset pwhash/;
+  $Apache2::Authen::Passphrase::rootdir = "/path/to/user/directory"
   my $hash = pwhash $username, $password;
   pwset $username, "pass123";
   eval { pwcheck $username, "pass123" };
@@ -92,6 +94,7 @@ Apache2::Authen::Passphrase - basic authentication with Authen::Passphrase
   # In Apache2 config
   <Location /secret>
     PerlAuthenHandler Apache2::Authen::Passphrase
+    PerlSetVar AuthenPassphraseRootdir /path/to/user/directory
     AuthName MyAuth
     Require valid-user
   </Location>
