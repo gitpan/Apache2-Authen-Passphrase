@@ -2,6 +2,7 @@ Changes
 Makefile.PL
 MANIFEST
 README
+aap-passwd
 t/Apache2-Authen-Passphrase.t
 lib/Apache2/Authen/Passphrase.pm
 META.yml                                 Module meta-data (added by MakeMaker)

@@ -1,4 +1,6 @@
-package Apache2::Authen::Passphrase 0.001001;
+package Apache2::Authen::Passphrase;
+
+our $VERSION = 0.002;
 
 use 5.014000;
 use strict;
@@ -23,7 +25,7 @@ our @EXPORT_OK = qw/pwset pwcheck pwhash USER_REGEX PASSPHRASE_VERSION INVALID_U
 
 ##################################################
 
-our $rootdir;
+our $rootdir //= $ENV{AAP_ROOTDIR};
 
 sub pwhash{
   my ($pass)=@_;
@@ -103,6 +105,14 @@ Apache2::Authen::Passphrase - basic authentication with Authen::Passphrase
 
 Apache2::Authen::Passphrase is a perl module which provides easy-to-use Apache2 authentication. It exports some utility functions and it contains a PerlAuthenHandler.
 
+The password hashes are stored in YAML files in an directory (called the C<rootdir>), one file per user.
+
+Set the C<rootdir> like this:
+
+  $Apache2::Authen::Passphrase::rootdir = '/path/to/rootdir';
+
+or by setting the C<AAP_ROOTDIR> enviroment variable to the desired value.
+
 =head1 FUNCTIONS
 
 =over
@@ -146,6 +156,16 @@ The version of the passphrase. It is incremented each time the passphrase hashin
 Uses C<Authen::Passphrase::BlowfishCrypt> with a cost factor of 10
 
 =back
+
+=back
+
+=head1 ENVIRONMENT
+
+=over
+
+=item AAP_ROOTDIR
+
+If the C<rootdir> is not explicitly set, it is taken from this environment variable.
 
 =back
 

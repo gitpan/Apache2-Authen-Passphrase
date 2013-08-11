@@ -4,9 +4,8 @@ use warnings;
 
 use File::Temp qw/tempdir/;
 use Test::More tests => 7;
+BEGIN { $ENV{AAP_ROOTDIR} = tempdir CLEANUP => 1 }
 BEGIN { use_ok('Apache2::Authen::Passphrase', qw/pwset pwcheck/) };
-
-$Apache2::Authen::Passphrase::rootdir = tempdir CLEANUP => 1;
 
 sub pw_ok {
   my ($user, $pass, $testname) = @_;
