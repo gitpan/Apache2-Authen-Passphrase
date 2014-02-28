@@ -1,4 +1,5 @@
 use ExtUtils::MakeMaker;
+use 5.014000;
 
 WriteMakefile(
     NAME             => 'Apache2::Authen::Passphrase',
@@ -9,12 +10,16 @@ WriteMakefile(
 	LICENSE          => 'perl',
 	EXE_FILES        => [ 'aap-passwd' ],
     PREREQ_PM        => {
-	  Apache2::RequestRec => 0,
-	  Apache2::Access => 0,
-	  Apache2::Const => 0,
-	  Authen::Passphrase => 0,
-	  Authen::Passphrase::BlowfishCrypt => 0,
-	  IO::Prompter => 0,
-	  YAML::Any => 0,
+		qw/Authen::Passphrase                0
+		   Authen::Passphrase::BlowfishCrypt 0
+		   IO::Prompter                      0
+		   YAML::Any                         0/,
 	},
+	META_MERGE       => {
+		recommends   => {
+			qw/Apache2::RequestRec 0
+			   Apache2::Access     0
+			   Apache2::Const      0/,
+		}
+	}
 );

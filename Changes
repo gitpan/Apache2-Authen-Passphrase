@@ -1,11 +1,15 @@
 Revision history for Perl extension Apache2::Authen::Passphrase.
 
-0.002 Sun 11 Aug 16:05:32 EEST 2013
-	- Add the aap-passwd utility
-	- Talk about the rootdir in the documentation
-	- Support setting the rootdir via an evironment variable
-0.001001 Sun  4 Aug 20:10:24 EEST 2013
-	- Fix the broken previous release
+0.002001 2014-02-28T23:23+03:00
+ - Recommend mod_perl instead of depending on it
 
-0.001 Sun  4 Aug 19:47:54 EEST 2013
-	- Initial Release
+0.002 2013-08-11T16:05+03:00
+ - Add the aap-passwd utility
+ - Talk about the rootdir in the documentation
+ - Support setting the rootdir via an evironment variable
+
+0.001001 2013-08-04T20:10+03:00
+ - Fix the broken previous release
+
+0.001 2013-08-04T19:47+03:00
+ - Initial Release

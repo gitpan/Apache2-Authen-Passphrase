@@ -1,11 +1,12 @@
 package Apache2::Authen::Passphrase;
 
-our $VERSION = 0.002;
+our $VERSION = 0.002001;
 
 use 5.014000;
 use strict;
 use warnings;
 use parent qw/Exporter/;
+use subs qw/OK HTTP_UNAUTHORIZED/;
 
 use constant +{
   USER_REGEX => qr/^\w{2,20}$/pa,
@@ -14,9 +15,9 @@ use constant +{
   BAD_PASSWORD => "bad-password\n",
 };
 
-use Apache2::RequestRec;
-use Apache2::Access;
-use Apache2::Const qw/OK HTTP_UNAUTHORIZED/;
+use if $ENV{MOD_PERL}, 'Apache2::RequestRec';
+use if $ENV{MOD_PERL}, 'Apache2::Access';
+use if $ENV{MOD_PERL}, 'Apache2::Const' => qw/OK HTTP_UNAUTHORIZED/;
 use Authen::Passphrase;
 use Authen::Passphrase::BlowfishCrypt;
 use YAML::Any qw/LoadFile DumpFile/;
